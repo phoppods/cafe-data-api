@@ -3,6 +3,8 @@ from .models import Store
 from .serializers import StoreSerializer
 from .models import Product
 from .serializers import ProductSerializer
+from .models import Sale
+from .serializers import SaleSerializer
 
 # provides both list (GET) and create (POST) functionalities
 
@@ -15,7 +17,6 @@ class StoreList(generics.ListCreateAPIView):
 
 # provides built-in functionality for retrieving, updating, and deleting a single object.
 
-
 class StoreDetailUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     queryset = Store.objects.all()
     serializer_class = StoreSerializer
@@ -27,8 +28,21 @@ class ProductList(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     
     serializer_class = ProductSerializer
-
 class ProductDetailUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    lookup_field = 'Product_id'
+    lookup_field = 'product_id'
+
+
+    
+class SaleList(generics.ListCreateAPIView):
+    queryset = Sale.objects.all()
+    serializer_class = SaleSerializer
+
+class SaleDetailUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Sale.objects.all()
+    serializer_class = SaleSerializer
+    lookup_field = 'transaction_id'
+
+
+        

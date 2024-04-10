@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Store
 from .models import Product
+from .models import Sale
 
 
 class StoreSerializer(serializers.ModelSerializer):
@@ -11,7 +12,12 @@ class StoreSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['Product_id', 'Product_Name', 'Product_timestamp']
+        fields = ['product_id', 'product_name', 'product_timestamp']
+
+class SaleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Sale
+        fields = ['transaction_id', 'transaction_date', 'transaction_time', 'transaction_qty', 'store_id', 'product_id', 'unit_price', 'product_category', 'product_name', 'product_detail']
 
 
 
