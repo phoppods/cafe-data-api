@@ -1,21 +1,12 @@
-from rest_framework import generics
-from .models import Store
-from .serializers import StoreSerializer
-from .models import Product
-from .serializers import ProductSerializer
-from .models import Sale
-from .serializers import SaleSerializer
-
-# provides both list (GET) and create (POST) functionalities
+from rest_framework import generics, response, status
+from .models import Store, Product, Sale
+from .serializers import StoreSerializer, ProductSerializer, SaleSerializer
 
 
 class StoreList(generics.ListCreateAPIView):
-    # fetches all Store objects from the database.
     queryset = Store.objects.all()
-    # for serializing/deserializing data to JSON when interacting with the view
     serializer_class = StoreSerializer
 
-# provides built-in functionality for retrieving, updating, and deleting a single object.
 
 class StoreDetailUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     queryset = Store.objects.all()
@@ -23,17 +14,29 @@ class StoreDetailUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'store_id'
 
 
+class StoreDeleteAll(generics.DestroyAPIView):
+    def delete(self, request, *args, **kwargs):
+        # Delete all Store objects
+        Store.objects.all().delete()
+        return response.Response(status=status.HTTP_204_NO_CONTENT)
+
+
 class ProductList(generics.ListCreateAPIView):
-   
     queryset = Product.objects.all()
-    
     serializer_class = ProductSerializer
+
+
 class ProductDetailUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'product_id'
 
 
+class ProductDeleteAll(generics.DestroyAPIView):
+    def delete(self, request, *args, **kwargs):
+        # Delete all Product objects
+        Product.objects.all().delete()
+        return response.Response(status=status.HTTP_204_NO_CONTENT)
     
 class SaleList(generics.ListCreateAPIView):
     queryset = Sale.objects.all()
@@ -44,5 +47,8 @@ class SaleDetailUpdateDelete(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SaleSerializer
     lookup_field = 'transaction_id'
 
-
-        
+class SaleDeleteAll(generics.DestroyAPIView):
+    def delete(self, request, *args, **kwargs):
+        # Delete all Sale objects
+        Sale.objects.all().delete()
+        return response.Response(status=status.HTTP_204_NO_CONTENT)
